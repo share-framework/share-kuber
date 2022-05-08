@@ -4,7 +4,7 @@ metadata:
   namespace: ns-monitor
   name: sky-oap
   labels:
-    name: sky-oap
+    app: sky-oap
 spec:
   selector:
     matchLabels: 
@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       labels:
-        name: sky-oap
+        app: sky-oap
     spec:
       containers:
       - image: apache/skywalking-oap-server:8.7.0-es7
