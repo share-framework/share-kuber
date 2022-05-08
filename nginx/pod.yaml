@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ns-nginx
+  name: nginx-gateway
+  labels:
+    app: nginx-gateway
+spec:
+  selector:
+    matchLabels:
+      app: nginx-gateway
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nginx-gateway
+    spec:
+      containers:
+      - name: nginx-gateway
+        image: nginx:1.14.0
+        ports:
+        -  containerPort: 80
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+        volumeMounts:
+        - name: nginx-data
+          mountPath: /usr/share/nginx/html/
+        - name: nginx-log
+          mountPath: /var/log/nginx/
+      volumes:
+      - name:  nginx-data
+        hostPath:
+          path: /home/nginx/data/
+          type: DirectoryOrCreate
+      - name: nginx-log
+        hostPath:
+          path: /home/nginx/logs/
+          type: DirectoryOrCreate
