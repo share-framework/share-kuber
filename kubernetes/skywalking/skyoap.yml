@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: ns-monitor
-  name:  sky-oap
+  name: sky-oap
   labels:
-    name:  sky-oap
+    name: sky-oap
 spec:
   selector:
     matchLabels: 
