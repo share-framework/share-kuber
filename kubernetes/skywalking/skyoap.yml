@@ -6,12 +6,6 @@ metadata:
   labels:
     name:  sky-oap
 spec:
-  # 滚动更新策略
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
   selector:
     matchLabels: 
       app: sky-oap
