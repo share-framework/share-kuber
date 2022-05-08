@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ns-monitor
+  name:  sky-oap
+  labels:
+    name:  sky-oap
+spec:
+  # 滚动更新策略
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels: 
+      app: sky-oap
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: sky-oap
+    spec:
+      containers:
+      - image: apache/skywalking-oap-server:8.7.0-es7
+        name:  sky-oap
+        # 资源限制和配置
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512M"
+          requests:
+            cpu: "20m"
+            memory: "55M"
+        # 存活健康检测探针
+        livenessProbe:
+          tcpSocket:
+            port: 11800
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+        # 就绪探针
+        readinessProbe:
+          tcpSocket:
+            port: 11800
+          initialDelaySeconds: 15
+          timeoutSeconds: 5  
+        ports:
+        - containerPort:  11800
+          name:  app
+        - containerPort:  12800
+          name:  oap-ui
+        volumeMounts:
+        - name: config
+          mountPath: "/skywalking/config"
+      volumes:
+        - name: config
+          configMap:
+            name: sky-oap-config
+            items:
+              - key: "application.yml"
+                path: "application.yml"
+      restartPolicy: Always
+      imagePullPolicy: Always

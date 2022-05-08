@@ -1,0 +1,11 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sky-oap-config
+  labels:
+    app: sky-oap
+data:
+  # 类文件键
+  application.yml: |
+    

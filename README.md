@@ -1,2 +1,4 @@
 # share-kuber
-share kubernetes study note
+study kubernetes & istio note.
+
+
