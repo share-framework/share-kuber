@@ -38,6 +38,9 @@ spec:
             port: 8080
           initialDelaySeconds: 30
           timeoutSeconds: 5  
+        env:
+        - name: SW_OAP_ADDRESS
+          value: http://oap-service:12800
         ports:
         - containerPort:  8080
           name:  web
