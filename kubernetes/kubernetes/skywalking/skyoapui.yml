@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ns-monitor
+  name: sky-oap-ui
+  labels:
+    app: sky-oap-ui
+spec:
+  selector:
+    matchLabels: 
+      app: sky-oap-ui
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sky-oap-ui
+    spec:
+      containers:
+      - image: apache/skywalking-ui:8.7.0
+        name:  sky-oap-ui
+        # 资源限制和配置
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "512M"
+          requests:
+            cpu: "500m"
+            memory: "256M"
+        # 存活健康检测探针
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+        # 就绪探针
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 30
+          timeoutSeconds: 5  
+        env:
+        - name: SW_OAP_ADDRESS
+          value: http://oap-service:12800
+        ports:
+        - containerPort:  8080
+          name:  web

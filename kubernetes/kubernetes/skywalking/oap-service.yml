@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+   app: oap-service
+  name: oap-service
+  namespace: ns-monitor
+spec:
+  ports:
+  - port: 11800
+    name: grpc-11800
+    protocol: TCP
+    targetPort: 11800
+    nodePort: 31800
+  - port: 12800
+    name: http-12800
+    protocol: TCP
+    targetPort: 12800
+  selector:
+    app: sky-oap
